@@ -43,6 +43,19 @@ class DialogsView(APIView):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuth])
+def logout_view(request: Request):
+    try:
+        request.user.auth_token.delete()
+    except (AttributeError, ObjectDoesNotExist):
+        return Response(status=500, data={"success": "false",
+                                          "message": "something went wrong"})
+    return Response(status=200, data={"success": "true",
+                                      "message": "ok"})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuth])
 def create_dialog_view(request: Request):
     Dialog.objects.create(user=request.user,
                           messages=json.dumps({"messages": []}))
