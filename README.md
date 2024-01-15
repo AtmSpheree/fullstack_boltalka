@@ -181,6 +181,6 @@ Run react js server
 ```
 
 Now frontend server is available on 
-```http
+```bash
   http://localhost:3000
 ```
