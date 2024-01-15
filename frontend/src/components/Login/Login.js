@@ -45,11 +45,19 @@ function Login(props) {
         })
     };
 
+    const clickHandler = e => {
+        e.preventDefault();
+        props.navigate('/register');
+    }
+
     return (<form onSubmit={submitHandler}>
+        <p style={{margin: 0}}>Вход</p>
         <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username"/>
         <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
-        <input type="submit" name="submit" value="Войти"/><br/>
-        {!isAccess? <p>Неверные учётные данные</p> : <p></p>}
+        <input type="submit" name="submit" value="Войти"/>
+        <br/>
+        <a href="/" onClick={clickHandler}>Регистрация</a>
+        {!isAccess? <p style={{position: "absolute"}}>Неверные учётные данные</p> : <p></p>}
     </form>
     );
 }
