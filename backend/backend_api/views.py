@@ -5,8 +5,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.request import Request
 from rest_framework.response import Response
 from .auth import TokenAuth
-from .models import Dialog
-from .serializers import DialogSerializer
+from .models import Dialog, Message
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist
@@ -20,13 +19,16 @@ class DialogView(APIView):
 
     def get(self, request: Request, id: int):
         try:
-            dialog = Dialog.objects.get(id=id)
+            dialog = Dialog.objects.get(id=id, user=request.user)
         except ObjectDoesNotExist as ex:
             return Response(status=403, data={"success": "false",
                                               "message": "dialog with this id does not exist"})
-        serializer = DialogSerializer(dialog)
+        messages = sorted(Message.objects.filter(dialog=dialog),
+                          key=lambda x: x.order_num)
         return Response(status=200, data={"success": "true",
-                                          "dialog": serializer.data})
+                                          "dialog": {"id": dialog.id,
+                                                     "messages_count": dialog.messages_count,
+                                                     "messages": [i.message for i in messages]}})
 
 
 class DialogsView(APIView):
@@ -35,9 +37,15 @@ class DialogsView(APIView):
 
     def get(self, request: Request):
         dialogs = Dialog.objects.filter(user=request.user)
-        serializer = DialogSerializer(dialogs, many=True)
+        data = []
+        for dialog in dialogs:
+            messages = sorted(Message.objects.filter(dialog=dialog),
+                              key=lambda x: x.order_num)
+            data.append({"id": dialog.id,
+                         "messages_count": dialog.messages_count,
+                         "messages": [s.message for s in messages]})
         return Response(status=200, data={"success": "true",
-                                          "dialogs": serializer.data})
+                                          "dialogs": data})
 
 
 @api_view(["POST"])
@@ -57,8 +65,7 @@ def logout_view(request: Request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuth])
 def create_dialog_view(request: Request):
-    Dialog.objects.create(user=request.user,
-                          messages=json.dumps({"messages": []}))
+    Dialog.objects.create(user=request.user)
     return Response(status=200, data={"success": "true",
                                       "message": "ok"})
 
@@ -75,12 +82,15 @@ def send_message_into_dialog_view(request: Request):
     except ObjectDoesNotExist as ex:
         return Response(status=403, data={"success": "false",
                                           "message": "dialog with this id does not exist"})
-    messages = json.loads(dialog.messages)["messages"] + [request.data["message"]]
+    Message.objects.create(message=request.data["message"], dialog=dialog, order_num=dialog.messages_count + 1)
+    messages = sorted(Message.objects.filter(dialog=dialog),
+                      key=lambda x: x.order_num)
+    messages = [i.message for i in messages]
     response = requests.post(url="https://api.aicloud.sbercloud.ru/public/v2/boltalka/predict",
                              data=json.dumps({"instances": [{"contexts": [messages]}]}))
     message = json.loads(response.text)["responses"][2:-2]
-    messages += [message]
-    dialog.messages = json.dumps({"messages": messages}, ensure_ascii=False)
+    Message.objects.create(message=message, dialog=dialog, order_num=dialog.messages_count + 2)
+    dialog.messages_count += 2
     dialog.save()
     return Response(status=200,
                     data={"success": "true", "message": message})
