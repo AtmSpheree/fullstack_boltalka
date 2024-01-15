@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "82e9d31e-e2a0-44ca-abc3-ac5e5daab97c",
+		"name": "fullstack_boltalka_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26456965"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/logout",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_dialog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/create_dialog",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"create_dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dialogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dialogs",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dialogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dialog/<int:id>",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dialog/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dialog",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "dialog",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"value": "Привет!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/send_message",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"send_message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_dialog/<int:id>",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/delete_dialog/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"delete_dialog",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		}
+	]
+}
