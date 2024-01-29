@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import '../../css/App.css';
 
 function Register(props) {
   const [username, setUsername] = useState("");
@@ -33,11 +34,17 @@ function Register(props) {
     props.navigate('/login');
   }
 
-  return (<form onSubmit={submitHandler}>
+  return (<form className="main_form_type" onSubmit={submitHandler}>
       <p style={{margin: 0}}>Регистрация</p>
-      <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username"/>
-      <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
-    <input type="submit" name="submit" value="Зарегистрироваться"/><br/>
+      <div className="main_form_input_type">
+        <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} required/>
+        <label>Username</label>
+      </div>
+      <div className="main_form_input_type">
+        <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} required/>
+        <label>Password</label>
+      </div>
+    <input className="form_submit_button" type="submit" name="submit" value="Зарегистрироваться"/>
       <a href={"/"} onClick={clickHandler}>Вход</a>
     </form>
   );

@@ -4,6 +4,7 @@ import Home from '../Home/Home'
 import Login from '../Login/Login'
 import Register from "../Register/Register";
 import { useState, useEffect } from 'react';
+import '../../css/Header.css';
 
 function App(props) {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -15,12 +16,14 @@ function App(props) {
     }
   }, [token]);
 
-  return (
+  return (<div>
+    <header id="header">boltalka</header>
     <Routes>
       <Route path="/" element={<Home setToken={setToken} navigate={navigate} token={token}/>}/>
       <Route path="/login" element={<Login setToken={setToken} navigate={navigate} token={token}/>}/>
       <Route path="/register" element={<Register navigate={navigate}/>}></Route>
     </Routes>
+    </div>
   )
 }
 

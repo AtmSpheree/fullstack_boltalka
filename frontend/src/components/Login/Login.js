@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import '../../css/App.css';
 
 function Login(props) {
     const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ function Login(props) {
         if (props.token) {
             props.navigate('/');
         }
-    }, []);
+    }, [props.token]);
 
     const submitHandler = e => {
         e.preventDefault();
@@ -50,14 +51,19 @@ function Login(props) {
         props.navigate('/register');
     }
 
-    return (<form onSubmit={submitHandler}>
+    return (<form className="main_form_type" onSubmit={submitHandler}>
         <p style={{margin: 0}}>Вход</p>
-        <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username"/>
-        <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
-        <input type="submit" name="submit" value="Войти"/>
-        <br/>
+        <div className="main_form_input_type">
+          <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} required/>
+          <label>Username</label>
+        </div>
+        <div className="main_form_input_type">
+          <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} required/>
+          <label>Password</label>
+        </div>
+        <input type="submit" className="form_submit_button" name="submit" value="Войти"/>
         <a href="/" onClick={clickHandler}>Регистрация</a>
-        {!isAccess? <p style={{position: "absolute"}}>Неверные учётные данные</p> : <p></p>}
+        {!isAccess? <p>Неверные учётные данные</p> : <p></p>}
     </form>
     );
 }
