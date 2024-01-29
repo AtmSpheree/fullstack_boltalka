@@ -6,7 +6,7 @@ function Register(props) {
 
   const submitHandler = e => {
     e.preventDefault();
-    fetch("http://localhost:8000/api/register",
+    fetch("http://localhost:8000/api/user",
       {
         method: "POST",
         headers: {

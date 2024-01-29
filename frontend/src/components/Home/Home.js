@@ -78,7 +78,7 @@ function Home(props) {
 
     const onClickHandlerCreateDialog = e => {
       e.preventDefault();
-      fetch("http://localhost:8000/api/create_dialog",
+      fetch("http://localhost:8000/api/dialog",
         {
           method: "POST",
           headers: {

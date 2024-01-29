@@ -22,9 +22,9 @@ function Dialogs(props) {
 
   const onClickHandlerDeleteDialog = e => {
     e.preventDefault();
-    fetch(`http://localhost:8000/api/delete_dialog/${selectedDialog}`,
+    fetch(`http://localhost:8000/api/dialog/${selectedDialog}`,
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
           "Authorization": `Bearer ${props.token}`

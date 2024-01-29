@@ -30,6 +30,21 @@ class DialogView(APIView):
                                                      "messages_count": dialog.messages_count,
                                                      "messages": [i.message for i in messages]}})
 
+    def post(self, request: Request):
+        Dialog.objects.create(user=request.user)
+        return Response(status=200, data={"success": "true",
+                                          "message": "ok"})
+
+    def delete(self, request: Request, id: int):
+        try:
+            dialog = Dialog.objects.get(user=request.user, id=id)
+        except ObjectDoesNotExist as ex:
+            return Response(status=403, data={"success": "false",
+                                              "message": "dialog with this id does not exist"})
+        dialog.delete()
+        return Response(status=200, data={"success": "true",
+                                          "message": "ok"})
+
 
 class DialogsView(APIView):
     authentication_classes = (TokenAuth,)
@@ -64,15 +79,6 @@ def logout_view(request: Request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuth])
-def create_dialog_view(request: Request):
-    Dialog.objects.create(user=request.user)
-    return Response(status=200, data={"success": "true",
-                                      "message": "ok"})
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuth])
 def send_message_into_dialog_view(request: Request):
     if "message" not in request.data or "dialog" not in request.data:
         return Response(status=400, data={"success": "false",
@@ -96,44 +102,29 @@ def send_message_into_dialog_view(request: Request):
                     data={"success": "true", "message": message})
 
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuth])
-def delete_dialog_view(request: Request, id: int):
-    try:
-        dialog = Dialog.objects.get(user=request.user, id=id)
-    except ObjectDoesNotExist as ex:
-        return Response(status=403, data={"success": "false",
-                                          "message": "dialog with this id does not exist"})
-    dialog.delete()
-    return Response(status=200, data={"success": "true",
-                                      "message": "ok"})
+class UserView(APIView):
+    authentication_classes = (TokenAuth,)
 
+    def get(self, request: Request):
+        if not request.user.is_authenticated:
+            return Response(status=403, data={"detail": "Authentication credentials were not provided."})
+        return Response(status=200, data={"success": "true",
+                                          "username": request.user.username})
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuth])
-def get_user_view(request: Request):
-    return Response(status=200, data={"success": "true",
-                                      "username": request.user.username})
-
-
-@api_view(["POST"])
-@authentication_classes([TokenAuth])
-def post_user_view(request: Request):
-    if request.user.is_authenticated:
-        return Response(status=403, data={"success": "false",
-                                          "message": "you can't register if you're already authenticated"})
-    if "id" in request.data or "email" in request.data:
-        return Response(status=400, data={"success": "false",
-                                          "message": "you can't using id or email fields"})
-    try:
-        if bool(User.objects.filter(username=request.data["username"])):
+    def post(self, request: Request):
+        if request.user.is_authenticated:
             return Response(status=403, data={"success": "false",
-                                              "message": "user with this username is already exists"})
-        User.objects.create_user(username=request.data["username"],
-                                 password=request.data["password"])
-    except Exception as ex:
-        return Response(status=400, data={"success": "false",
-                                          "message": "invalid fields"})
-    return Response(status=200, data={"success": "true", "message": "ok"})
+                                              "message": "you can't register if you're already authenticated"})
+        if "id" in request.data or "email" in request.data:
+            return Response(status=400, data={"success": "false",
+                                              "message": "you can't using id or email fields"})
+        try:
+            if bool(User.objects.filter(username=request.data["username"])):
+                return Response(status=403, data={"success": "false",
+                                                  "message": "user with this username is already exists"})
+            User.objects.create_user(username=request.data["username"],
+                                     password=request.data["password"])
+        except Exception as ex:
+            return Response(status=400, data={"success": "false",
+                                              "message": "invalid fields"})
+        return Response(status=200, data={"success": "true", "message": "ok"})
