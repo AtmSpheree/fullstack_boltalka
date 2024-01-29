@@ -7,41 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "register",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{host}}/register",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "login",
 			"request": {
 				"method": "POST",
@@ -108,17 +73,35 @@
 			"response": []
 		},
 		{
-			"name": "create_dialog",
+			"name": "user",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{host}}/create_dialog",
+					"raw": "{{host}}/user",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"create_dialog"
+						"user"
 					]
 				}
 			},
@@ -160,6 +143,41 @@
 			"response": []
 		},
 		{
+			"name": "dialog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dialog",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dialog/<int:id>",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dialog/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dialog",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "send_message",
 			"request": {
 				"method": "POST",
@@ -174,7 +192,7 @@
 						},
 						{
 							"key": "message",
-							"value": "Привет!",
+							"value": "Привет",
 							"type": "text"
 						}
 					]
@@ -186,24 +204,6 @@
 					],
 					"path": [
 						"send_message"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete_dialog/<int:id>",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/delete_dialog/1",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"delete_dialog",
-						"1"
 					]
 				}
 			},
