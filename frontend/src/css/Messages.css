@@ -1,0 +1,61 @@
+.right_messages_panel {
+    width: 100%;
+    background-color: #222222;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem;
+    color: white;
+    gap: 1rem;
+    font-size: 1.1rem;
+    justify-content: flex-end;
+    height: 50rem;
+}
+
+.messages_box {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messages_box > p {
+    background-color: white;
+    color: black;
+    padding: 0.5rem;
+    border-radius: 1rem;
+}
+
+.send_message_box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.send_message_box > .input_message {
+    width: 100%;
+    font-size: 1.2rem;
+    outline: none;
+    border: 0;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    background-color: white;
+}
+
+.send_message_box > .submit_message {
+    font-size: 1.2rem;
+    outline: none;
+    border: 0;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    background-color: white;
+    cursor: pointer;
+    transition: all .1s;
+}
+
+.send_message_box > .submit_message:hover {
+    background-color: orange;
+    color: white;
+}

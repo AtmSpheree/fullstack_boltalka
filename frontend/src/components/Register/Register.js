@@ -35,7 +35,7 @@ function Register(props) {
   }
 
   return (<form className="main_form_type" onSubmit={submitHandler}>
-      <p style={{margin: 0}}>Регистрация</p>
+      <h1 style={{margin: 0}}>Регистрация</h1>
       <div className="main_form_input_type">
         <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} required/>
         <label>Username</label>

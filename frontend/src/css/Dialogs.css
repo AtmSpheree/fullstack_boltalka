@@ -1,0 +1,24 @@
+.dialog {
+    background-color: white;
+    color: black;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all .1s;
+}
+
+.dialog:hover {
+    background-color: orange;
+    color: white;
+}
+
+.dialog_selected {
+    background-color: orange;
+    color: white;
+}
+
+.dialogs_container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

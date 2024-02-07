@@ -52,7 +52,7 @@ function Login(props) {
     }
 
     return (<form className="main_form_type" onSubmit={submitHandler}>
-        <p style={{margin: 0}}>Вход</p>
+        <h1 style={{margin: 0}}>Вход</h1>
         <div className="main_form_input_type">
           <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} required/>
           <label>Username</label>
@@ -61,9 +61,9 @@ function Login(props) {
           <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} required/>
           <label>Password</label>
         </div>
+        {!isAccess && <p>Неверные учётные данные</p>}
         <input type="submit" className="form_submit_button" name="submit" value="Войти"/>
         <a href="/" onClick={clickHandler}>Регистрация</a>
-        {!isAccess? <p>Неверные учётные данные</p> : <p></p>}
     </form>
     );
 }
